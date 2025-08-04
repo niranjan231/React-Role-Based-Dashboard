@@ -1,38 +1,113 @@
-.App {
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-container h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 2.8rem;
+}
+
+.page-container p {
+  color: #34495e;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page-logo {
+  height: 80px;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.page-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.page-description {
+  color: #34495e;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.info-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+  padding: 20px;
+  margin: 10px;
+  flex: 1;
+  min-width: 250px;
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-8px);
+}
+
+.cards-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.info-icon {
+  font-size: 40px;
+  color: #2980b9;
+  margin-bottom: 15px;
+}
+.navbar {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-brand {
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
 }
+
+.nav-link {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffd700; /* gold highlight on hover */
+}
+
+.btn-outline-light {
+  border-radius: 25px;
+  padding: 5px 15px;
+  font-weight: 600;
+}
+
+.btn-outline-light:hover {
+  background-color: #ffd700;
+  color: #000;
+  border-color: #ffd700;
+}
+
+.text-light strong {
+  text-transform: capitalize;
+}
+
+

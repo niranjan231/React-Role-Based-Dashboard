@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+React Role-Based Dashboard
+A simple and clean React application demonstrating role-based authentication and routing using Redux Toolkit and React Router. This project supports two user roles — Admin and User — each having different permissions and access within the app.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Features
+Login system with dummy credentials for Admin and User roles.
 
-## Available Scripts
+Role-based routing:
 
-In the project directory, you can run:
+Admins have full access to all pages and features.
 
-### `npm start`
+Users have limited access (read and edit only).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Protected routes: Only logged-in users can access the dashboard and other internal pages.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Dynamic navbar showing links based on user role and a logout button.
 
-### `npm test`
+Users table with role-based actions (Edit for all, Delete and Post only for Admin).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Pagination for user list (10 items per page) with Bootstrap styling.
 
-### `npm run build`
+Admin-only pages: Engineer, Customer, and Reporting pages with beautiful layouts.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clean and responsive UI using Bootstrap and custom CSS.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Easy to extend with more roles or pages.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Getting Started
+Prerequisites
+Node.js installed (v14 or above recommended)
 
-### `npm run eject`
+npm or yarn package manager
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Installation
+Clone the repository:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+bash
+Copy
+Edit
+git clone https://github.com/yourusername/react-role-based-dashboard.git
+cd react-role-based-dashboard
+Install dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+bash
+Copy
+Edit
+npm install
+# or
+yarn install
+Start the development server:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+bash
+Copy
+Edit
+npm start
+# or
+yarn start
+Open your browser and go to http://localhost:3000
 
-## Learn More
+Usage
+Login Credentials
+Admin:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Username: admin
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Password: admin123
 
-### Code Splitting
+User:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Username: user
 
-### Analyzing the Bundle Size
+Password: user123
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+What Admin Can Do
+Access all pages including Engineer, Customer, and Reporting.
 
-### Making a Progressive Web App
+Edit, delete, and post user entries in the users table.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+See admin-specific navigation links and logout option.
 
-### Advanced Configuration
+What User Can Do
+Access dashboard and users list.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Edit user details but cannot delete or post.
 
-### Deployment
+See limited navigation without admin-only pages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Project Structure
+bash
+Copy
+Edit
+src/
+├── components/
+│   └── Navbar.jsx           # Navigation bar with role-based links and logout
+├── pages/
+│   ├── Dashboard.jsx        # Main dashboard page
+│   ├── EngineerPage.jsx     # Admin-only engineer page
+│   ├── CustomerPage.jsx     # Admin-only customer management page
+│   ├── ReportingPage.jsx    # Admin-only reporting page
+│   ├── LoginPage.jsx        # Login form with dummy authentication
+│   └── UsersTable.jsx       # Users list table with pagination and actions
+├── redux/
+│   ├── authSlice.js         # Authentication slice managing login/logout and roles
+│   └── usersSlice.js        # Users data slice with dummy data and actions
+├── App.jsx                  # Main app routing with protected and role-based routes
+└── index.js                 # App entry with BrowserRouter wrapping App
+Technologies Used
+React.js (functional components & hooks)
 
-### `npm run build` fails to minify
+Redux Toolkit for state management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+React Router v6 for routing
+
+Bootstrap 5 for styling
+
+React Icons for vector icons
+
+CSS modules & custom CSS for UI polish
+
+Notes
+This app uses dummy authentication for demonstration only.
+
+State is kept in Redux store and resets on page reload (no backend or persistent storage).
+
+Easy to extend with real APIs or more advanced auth systems.
+
+License
+This project is open-source and free to use.

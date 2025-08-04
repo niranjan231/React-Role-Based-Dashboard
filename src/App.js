@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-function App() {
+import EngineerPage from "./Pages/EngineerPage";
+import CustomerPage from "./Pages/CustomerPage";
+import ReportingPage from "./Pages/ReportingPage";
+import Dashboard from "./Pages/Dashboard";
+import LoginPage from "./Pages/LoginPage";
+
+function AdminRoute({ children }) {
+  const { role, isAuthenticated } = useSelector((state) => state.auth);
+  if (!isAuthenticated) return <Navigate to="/" />;
+  if (role !== "admin") return <Navigate to="/dashboard" />;
+  return children;
+}
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <RequireAuth>
+            <Dashboard />
+          </RequireAuth>
+        }
+      />
+
+      {/* Admin only pages */}
+      <Route
+        path="/engineer"
+        element={
+          <AdminRoute>
+            <EngineerPage />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/customer"
+        element={
+          <AdminRoute>
+            <CustomerPage />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/reporting"
+        element={
+          <AdminRoute>
+            <ReportingPage />
+          </AdminRoute>
+        }
+      />
+    </Routes>
   );
 }
 
-export default App;
+// RequireAuth to check if user logged in (either admin or user)
+function RequireAuth({ children }) {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  if (!isAuthenticated) return <Navigate to="/" />;
+  return children;
+}
