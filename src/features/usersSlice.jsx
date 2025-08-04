@@ -1,38 +1,129 @@
-// src/features/users/usersSlice.js
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  { id: 1, name: "User One", email: "userone@example.com" },
-  { id: 2, name: "User Two", email: "usertwo@example.com" },
-  { id: 3, name: "User Three", email: "userthree@example.com" },
-  { id: 4, name: "User Four", email: "userfour@example.com" },
-  { id: 5, name: "User Five", email: "userfive@example.com" },
-  { id: 6, name: "User Six", email: "usersix@example.com" },
-  { id: 7, name: "User Seven", email: "userseven@example.com" },
-  { id: 8, name: "User Eight", email: "usereight@example.com" },
-  { id: 9, name: "User Nine", email: "usernine@example.com" },
-  { id: 10, name: "User Ten", email: "userten@example.com" },
-];
-
+const initialState = {
+  users: [
+    {
+      id: 1,
+      name: "Admin User",
+      email: "admin",
+      password: "admin123",
+      category: "engineer",
+      role: "admin",
+    },
+    {
+      id: 2,
+      name: "Normal User",
+      email: "user",
+      password: "user123",
+      category: "customer",
+      role: "user",
+    },
+    {
+      id: 3,
+      name: "Raj Verma",
+      email: "raj@example.com",
+      password: "12345678",
+      role: "user",
+      category: "engineer",
+    },
+    {
+      id: 4,
+      name: "Pooja Sharma",
+      email: "pooja@example.com",
+      password: "12345678",
+      role: "user",
+      category: "customer",
+    },
+    {
+      id: 5,
+      name: "Amit Yadav",
+      email: "amit@example.com",
+      password: "12345678",
+      role: "user",
+      category: "reporting",
+    },
+    {
+      id: 6,
+      name: "Neha Singh",
+      email: "neha@example.com",
+      password: "12345678",
+      role: "user",
+      category: "engineer",
+    },
+    {
+      id: 7,
+      name: "Ravi Thakur",
+      email: "ravi@example.com",
+      password: "12345678",
+      role: "user",
+      category: "customer",
+    },
+    {
+      id: 8,
+      name: "Simran Kaur",
+      email: "simran@example.com",
+      password: "12345678",
+      role: "user",
+      category: "reporting",
+    },
+    {
+      id: 9,
+      name: "Vivek Mehra",
+      email: "vivek@example.com",
+      password: "12345678",
+      role: "user",
+      category: "engineer",
+    },
+    {
+      id: 10,
+      name: "Anjali Chauhan",
+      email: "anjali@example.com",
+      password: "12345678",
+      role: "user",
+      category: "customer",
+    },
+    {
+      id: 11,
+      name: "Nikhil Kapoor",
+      email: "nikhil@example.com",
+      password: "12345678",
+      role: "user",
+      category: "reporting",
+    },
+    {
+      id: 12,
+      name: "Kavita Rathi",
+      email: "kavita@example.com",
+      password: "12345678",
+      role: "user",
+      category: "engineer",
+    },
+  ],
+};
 
 const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    deleteUser: (state, action) => state.filter(user => user.id !== action.payload),
-    editUser: (state, action) => {
-      const { id, name, email } = action.payload;
-      const user = state.find(u => u.id === id);
+    addUser: (state, action) => {
+      state.users.push(action.payload);
+    },
+    updateUserCategory: (state, action) => {
+      const { userId, newCategory } = action.payload;
+      const user = state.users.find((u) => u.id === userId);
       if (user) {
-        user.name = name;
-        user.email = email;
+        user.category = newCategory;
       }
     },
-    postUser: (state, action) => {
-      state.push({ id: nanoid(), ...action.payload });
+    updateUserRole: (state, action) => {
+      const { userId, newRole } = action.payload;
+      const user = state.users.find((u) => u.id === userId);
+      if (user) {
+        user.role = newRole;
+      }
     },
   },
 });
 
-export const { deleteUser, editUser, postUser } = usersSlice.actions;
+export const { addUser, updateUserCategory, updateUserRole } = usersSlice.actions;
 export default usersSlice.reducer;

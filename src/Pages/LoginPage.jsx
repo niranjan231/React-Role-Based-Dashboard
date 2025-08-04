@@ -1,37 +1,34 @@
 // src/pages/LoginPage.jsx
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const users = useSelector((state) => state.users.users);
 
     const [credentials, setCredentials] = useState({ username: "", password: "" });
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log("Submitted credentials:", credentials);
-
         const { username, password } = credentials;
+        const trimmedUsername = username.trim();
+        const trimmedPassword = password.trim();
 
-        // Trim spaces to avoid mismatch
-        const user = username.trim();
-        const pass = password.trim();
+        const foundUser = users.find(
+            (u) => u.email === trimmedUsername && u.password === trimmedPassword
+        );
 
-        if (
-            (user === "admin" && pass === "admin123") ||
-            (user === "user" && pass === "user123")
-        ) {
-            dispatch(login({ username: user, password: pass }));
+        if (foundUser) {
+            dispatch(login({ user: foundUser }));
             navigate("/dashboard");
         } else {
             alert("Invalid username or password");
         }
     };
-
 
     return (
         <div className="container mt-5" style={{ maxWidth: "400px" }}>
@@ -59,10 +56,10 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-4">
-                <strong>Test Credentials:</strong>
+                <strong>Example Credentials:</strong>
                 <ul>
                     <li>Admin: <code>admin / admin123</code></li>
-                    <li>User: <code>user / user123</code></li>
+                    <li>Or use your created user credentials</li>
                 </ul>
             </div>
         </div>
