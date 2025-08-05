@@ -1,7 +1,10 @@
+// ✅ UPDATED usersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
+const storedUsers = JSON.parse(localStorage.getItem("users"));
+
 const initialState = {
-  users: [
+  users: storedUsers || [
     {
       id: 1,
       name: "Admin User",
@@ -107,12 +110,14 @@ const usersSlice = createSlice({
   reducers: {
     addUser: (state, action) => {
       state.users.push(action.payload);
+      localStorage.setItem("users", JSON.stringify(state.users));
     },
     updateUserCategory: (state, action) => {
       const { userId, newCategory } = action.payload;
       const user = state.users.find((u) => u.id === userId);
       if (user) {
         user.category = newCategory;
+        localStorage.setItem("users", JSON.stringify(state.users));
       }
     },
     updateUserRole: (state, action) => {
@@ -120,6 +125,7 @@ const usersSlice = createSlice({
       const user = state.users.find((u) => u.id === userId);
       if (user) {
         user.role = newRole;
+        localStorage.setItem("users", JSON.stringify(state.users));
       }
     },
   },
