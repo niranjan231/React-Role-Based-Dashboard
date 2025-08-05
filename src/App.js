@@ -7,6 +7,8 @@ import CustomerPage from "./Pages/CustomerPage";
 import ReportingPage from "./Pages/ReportingPage";
 import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
+import TaskListPage from "./Pages/TaskListPage";  // Import your new page
+import Navbar from "./components/Navbar";
 
 function AdminRoute({ children }) {
   const { role, isAuthenticated } = useSelector((state) => state.auth);
@@ -17,6 +19,8 @@ function AdminRoute({ children }) {
 
 export default function App() {
   return (
+<>
+<Navbar/>
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route
@@ -53,7 +57,18 @@ export default function App() {
           </AdminRoute>
         }
       />
+
+      <Route
+        path="/tasks"
+        element={
+          <RequireAuth>
+            <TaskListPage />
+          </RequireAuth>
+        }
+      />
+
     </Routes>
+    </>
   );
 }
 
