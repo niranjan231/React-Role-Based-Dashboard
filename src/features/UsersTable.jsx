@@ -35,7 +35,7 @@ export default function UsersTable() {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterCategory === "all" || user.category === filterCategory;
     const matchesRole = filterRole === "all" || user.role === filterRole;
-    
+
     return matchesSearch && matchesCategory && matchesRole;
   });
 
@@ -55,12 +55,12 @@ export default function UsersTable() {
     const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
     const colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'];
     const color = colors[initials.charCodeAt(0) % colors.length];
-    
+
     return (
-      <div 
+      <div
         className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
         style={{
-          width: '40px', 
+          width: '40px',
           height: '40px',
           backgroundColor: color,
           fontSize: '0.9rem'
@@ -74,24 +74,24 @@ export default function UsersTable() {
   return (
     <div className="card border-0 shadow-lg rounded-3 overflow-hidden mb-4">
       {/* Card Header */}
-      <div className="card-header bg-gradient-primary text-white py-3">
+      <div className="card-header bg-primary text-light py-3">
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <h2 className="h4 mb-0">
+            <h2 className="h4 mb-0 text-white text-shadow">
               <i className="bi bi-people-fill me-2"></i>User Management
             </h2>
-            <p className="mb-0 small opacity-75">Manage all users in your organization</p>
           </div>
           {role === "admin" && (
             <button
-              className="btn btn-light d-flex align-items-center"
+              className="btn btn-outline-light d-flex align-items-center shadow-sm fw-semibold"
               onClick={() => setShowCreateModal(true)}
             >
-              <i className="bi bi-plus-circle me-2"></i> Create User
+              <i className="bi bi-person-plus-fill me-2 fs-5"></i> Create User
             </button>
           )}
         </div>
       </div>
+
 
       {/* Filter Section */}
       <div className="card-body bg-light py-3 border-bottom">
@@ -110,9 +110,9 @@ export default function UsersTable() {
               />
             </div>
           </div>
-          
+
           <div className="col-md-4">
-            <select 
+            <select
               className="form-select"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
@@ -123,9 +123,9 @@ export default function UsersTable() {
               <option value="reporting">Reporting</option>
             </select>
           </div>
-          
+
           <div className="col-md-4">
-            <select 
+            <select
               className="form-select"
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
@@ -171,8 +171,8 @@ export default function UsersTable() {
                   role === "admin" || (role === "user" && user.id === currentUserId);
 
                 return (
-                  <tr 
-                    key={user.id} 
+                  <tr
+                    key={user.id}
                     className={canEdit ? "hover-row" : ""}
                     style={{ cursor: canEdit ? "pointer" : "default" }}
                   >
@@ -226,12 +226,15 @@ export default function UsersTable() {
                         </span>
                       )}
                     </td>
-                    
+
                     <td className="text-center">
-                      <span className="badge bg-success rounded-pill px-3 py-1">
-                        <i className="bi bi-check-circle me-1"></i>Active
+                      <span className="badge bg-success bg-gradient rounded-pill px-4 py-2 fs-6 shadow-sm d-inline-flex align-items-center">
+                        <i className="bi bi-check-circle-fill me-2 fs-5"></i>
+                        Active
                       </span>
                     </td>
+
+
                   </tr>
                 );
               })
@@ -239,7 +242,7 @@ export default function UsersTable() {
           </tbody>
         </table>
       </div>
-      
+
       {/* Card Footer */}
       <div className="card-footer bg-light py-3">
         <div className="d-flex justify-content-between align-items-center">
