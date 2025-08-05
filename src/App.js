@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import EngineerPage from "./Pages/EngineerPage";
 import CustomerPage from "./Pages/CustomerPage";

@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  updateUserCategory,
-  updateUserRole,
-  addUser,
-} from "../features/usersSlice";
+import { addUser, updateUserCategory, updateUserRole } from "../features/usersSlice";
+import CreateUserModal from "../Pages/CreateUserModal";
 
 export default function UsersTable() {
   const users = useSelector((state) => state.users.users);
   const role = useSelector((state) => state.auth.role);
+  const currentUserId = useSelector((state) => state.auth.user?.id); // get logged-in user id
   const dispatch = useDispatch();
 
-  const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    category: "engineer",
-    role: "user",
-  });
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const handleCategoryChange = (userId, newCategory) => {
     dispatch(updateUserCategory({ userId, newCategory }));
@@ -27,151 +19,109 @@ export default function UsersTable() {
     dispatch(updateUserRole({ userId, newRole }));
   };
 
-  const handleCreateUser = (e) => {
-    e.preventDefault();
-    if (!newUser.name || !newUser.email || !newUser.password) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const userWithId = {
-      ...newUser,
-      id: Date.now(),
+  const handleAddUser = (userData) => {
+    const newUser = {
+      ...userData,
+      id: users.length ? users[users.length - 1].id + 1 : 1,
     };
+    dispatch(addUser(newUser));
+  };
 
-    dispatch(addUser(userWithId));
+  const categoryBadge = {
+    engineer: "primary",
+    customer: "info",
+    reporting: "warning",
+  };
 
-    setNewUser({
-      name: "",
-      email: "",
-      password: "",
-      category: "engineer",
-      role: "user",
-    });
+  const roleBadge = {
+    admin: "danger",
+    user: "secondary",
   };
 
   return (
-    <div className="container">
-      {role === "admin" && (
-        <form className="mb-4" onSubmit={handleCreateUser}>
-          <h4>Create New User</h4>
-          <div className="row g-2">
-            <div className="col-md-2">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                value={newUser.name}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, name: e.target.value })
-                }
-              />
-            </div>
-            <div className="col-md-2">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                value={newUser.email}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, email: e.target.value })
-                }
-              />
-            </div>
-            <div className="col-md-2">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                value={newUser.password}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, password: e.target.value })
-                }
-              />
-            </div>
-            <div className="col-md-2">
-              <select
-                className="form-select"
-                value={newUser.category}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, category: e.target.value })
-                }
-              >
-                <option value="engineer">Engineer</option>
-                <option value="customer">Customer</option>
-                <option value="reporting">Reporting</option>
-              </select>
-            </div>
-            <div className="col-md-2">
-              <select
-                className="form-select"
-                value={newUser.role}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, role: e.target.value })
-                }
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div className="col-md-2">
-              <button type="submit" className="btn btn-primary w-100">
-                Create User
-              </button>
-            </div>
-          </div>
-        </form>
-      )}
+    <div className="card shadow-sm border-0">
+      <div className="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+        <h5 className="mb-0">User Management</h5>
+        {role === "admin" && (
+          <button
+            className="btn btn-light btn-sm"
+            onClick={() => setShowCreateModal(true)}
+          >
+            + Create User
+          </button>
+        )}
+      </div>
 
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>
-                {role === "admin" ? (
-                  <select
-                    value={user.category}
-                    onChange={(e) =>
-                      handleCategoryChange(user.id, e.target.value)
-                    }
-                    className="form-select"
-                  >
-                    <option value="engineer">Engineer</option>
-                    <option value="customer">Customer</option>
-                    <option value="reporting">Reporting</option>
-                  </select>
-                ) : (
-                  user.category
-                )}
-              </td>
-              <td>
-                {role === "admin" ? (
-                  <select
-                    value={user.role}
-                    onChange={(e) =>
-                      handleRoleChange(user.id, e.target.value)
-                    }
-                    className="form-select"
-                  >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                ) : (
-                  user.role
-                )}
-              </td>
+      <CreateUserModal
+        show={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onCreate={handleAddUser}
+      />
+
+      <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0">
+          <thead className="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Role</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => {
+              const canEdit =
+                role === "admin" || (role === "user" && user.id === currentUserId);
+
+              return (
+                <tr key={user.id} style={{ cursor: canEdit ? "pointer" : "default" }}>
+                  <td>{user.name}</td>
+
+                  <td>
+                    {canEdit ? (
+                      <select
+                        className={`form-select form-select-sm w-auto`}
+                        value={user.category}
+                        onChange={(e) => handleCategoryChange(user.id, e.target.value)}
+                      >
+                        <option value="engineer">Engineer</option>
+                        <option value="customer">Customer</option>
+                        <option value="reporting">Reporting</option>
+                      </select>
+                    ) : (
+                      <span
+                        className={`badge bg-${
+                          categoryBadge[user.category] || "secondary"
+                        }`}
+                      >
+                        {user.category.charAt(0).toUpperCase() + user.category.slice(1)}
+                      </span>
+                    )}
+                  </td>
+
+                  <td>
+                    {canEdit ? (
+                      <select
+                        className={`form-select form-select-sm w-auto`}
+                        value={user.role}
+                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                      >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    ) : (
+                      <span
+                        className={`badge bg-${roleBadge[user.role] || "secondary"}`}
+                      >
+                        {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

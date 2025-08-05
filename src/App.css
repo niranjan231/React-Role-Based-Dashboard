@@ -14,7 +14,31 @@
   font-weight: 700;
   font-size: 2.8rem;
 }
+/* Optional if you want smoother modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+.user-detail-modal p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+.table-hover tbody tr:hover {
+  background-color: #f0f8ff;
+}
 
+.btn-outline-info {
+  font-weight: 500;
+}
 .page-container p {
   color: #34495e;
   font-size: 1.1rem;
