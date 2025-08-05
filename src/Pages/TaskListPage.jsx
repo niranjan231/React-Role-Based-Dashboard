@@ -17,7 +17,8 @@ export default function TaskListPage() {
   });
 
   const users = useSelector((state) => state.users.users);
-  const tasks = useSelector((state) => state.tasks.tasks);
+  const allTasks = useSelector((state) => state.tasks.tasks);
+  const currentUser = useSelector((state) => state.auth.user); // ✅ logged in user
 
   const handleChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
@@ -29,6 +30,7 @@ export default function TaskListPage() {
     const taskToAdd = {
       ...newTask,
       id: Date.now(), // temporary unique ID
+      createdBy: currentUser?.id, // ✅ set task's creator
     };
 
     dispatch(addTask(taskToAdd));
@@ -47,6 +49,12 @@ export default function TaskListPage() {
   const handleStatusChange = (taskId, newStatus) => {
     dispatch(updateTaskStatus({ taskId, status: newStatus }));
   };
+
+  // ✅ Filter: Admin sees all, others see only their tasks
+  const visibleTasks =
+    currentUser?.role === "admin"
+      ? allTasks
+      : allTasks.filter((task) => task.assignedTo === currentUser?.name);
 
   return (
     <div className="container py-4">
@@ -126,36 +134,40 @@ export default function TaskListPage() {
       )}
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {tasks.map((task) => (
-          <div className="col" key={task.id}>
-            <div className="card h-100 shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title text-dark fw-bold">{task.title}</h5>
-                <p className="card-text mb-1">
-                  <strong>Description:</strong> {task.description}
-                </p>
-                <p className="card-text mb-1">
-                  <strong>Assigned To:</strong> {task.assignedTo}
-                </p>
-                <p className="card-text mb-1">
-                  <strong>Due Date:</strong> {task.dueDate}
-                </p>
-                <p className="card-text">
-                  <strong>Status:</strong>
-                  <select
-                    className="form-select mt-1"
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(task.id, e.target.value)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                </p>
+        {visibleTasks.length === 0 ? (
+          <p className="text-muted">No tasks available for you.</p>
+        ) : (
+          visibleTasks.map((task) => (
+            <div className="col" key={task.id}>
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title text-dark fw-bold">{task.title}</h5>
+                  <p className="card-text mb-1">
+                    <strong>Description:</strong> {task.description}
+                  </p>
+                  <p className="card-text mb-1">
+                    <strong>Assigned To:</strong> {task.assignedTo}
+                  </p>
+                  <p className="card-text mb-1">
+                    <strong>Due Date:</strong> {task.dueDate}
+                  </p>
+                  <p className="card-text">
+                    <strong>Status:</strong>
+                    <select
+                      className="form-select mt-1"
+                      value={task.status}
+                      onChange={(e) => handleStatusChange(task.id, e.target.value)}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
