@@ -9,6 +9,8 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import TaskListPage from "./Pages/TaskListPage";  // Import your new page
 import Navbar from "./components/Navbar";
+import HRPage from "./Pages/HRPage";
+import UserProfile from "./components/UserProfile";
 
 function AdminRoute({ children }) {
   const { role, isAuthenticated } = useSelector((state) => state.auth);
@@ -21,8 +23,13 @@ export default function App() {
   return (
 <>
 <Navbar/>
+{/* <HRPage/> */}
+{/* <UserProfile/> */}
     <Routes>
+
+       <Route path="/hr" element={<HRPage />} />
       <Route path="/" element={<LoginPage />} />
+      <Route path="/profile" element={<UserProfile />} />
       <Route
         path="/dashboard"
         element={

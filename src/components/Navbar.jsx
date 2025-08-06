@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
-
+// import { Link } from "react-router-dom";
 export default function Navbar() {
   const { role, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export default function Navbar() {
     }}>
       <div className="container">
         {/* Brand */}
-        <Link to="/dashboard" className="navbar-brand text-white d-flex align-items-center" 
+        <Link to="/dashboard" className="navbar-brand text-white d-flex align-items-center"
           style={{
             fontWeight: 700,
             fontSize: "1.8rem",
@@ -44,13 +44,20 @@ export default function Navbar() {
             boxShadow: "none"
           }}
         >
-          <span className="navbar-toggler-icon text-white" 
+          <span className="navbar-toggler-icon text-white"
             style={{ filter: "invert(1)" }} />
         </button>
 
         {/* Navbar content */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            {/* {isAuthenticated && (
+              <li className="nav-item mx-1">
+                <NavLink to="/profile" icon="bi-person">
+                  User Profile
+                </NavLink>
+              </li>
+            )} */}
             {role === "admin" && (
               <>
                 <li className="nav-item mx-1">
@@ -67,6 +74,10 @@ export default function Navbar() {
                   <NavLink to="/reporting" icon="bi-graph-up">
                     Reporting
                   </NavLink>
+                </li>
+                <li className="nav-item mx-1">
+                  <NavLink to="/hr" icon="bi-cpu">
+                    HR Dashboard                  </NavLink>
                 </li>
                 <li className="nav-item mx-1">
                   <Link
@@ -106,8 +117,8 @@ export default function Navbar() {
                   fontSize: "0.9rem"
                 }}>
                 <i className="bi bi-person-circle me-2"></i>
-                Logged as: 
-                <span className="badge ms-2 py-1" 
+                Logged as:
+                <span className="badge ms-2 py-1"
                   style={{
                     background: "linear-gradient(135deg, #ffc107 0%, #ff9800 100%)",
                     color: "#000",
@@ -156,8 +167,8 @@ export default function Navbar() {
 // Reusable NavLink component for consistent styling
 function NavLink({ to, icon, children }) {
   return (
-    <Link 
-      to={to} 
+    <Link
+      to={to}
       className="nav-link text-white d-flex align-items-center px-3 py-2"
       style={{
         fontWeight: 500,

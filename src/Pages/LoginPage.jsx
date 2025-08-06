@@ -59,7 +59,8 @@ export default function LoginPage() {
                 <strong>Example Credentials:</strong>
                 <ul>
                     <li>Admin: <code>admin / admin123</code></li>
-                    <li>Or use your created user credentials</li>
+                    <li>User: <code>demo / 12345678</code></li>
+
                 </ul>
             </div>
         </div>

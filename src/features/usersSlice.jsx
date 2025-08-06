@@ -1,4 +1,3 @@
-// ✅ UPDATED usersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const storedUsers = JSON.parse(localStorage.getItem("users"));
@@ -120,6 +119,17 @@ const usersSlice = createSlice({
         localStorage.setItem("users", JSON.stringify(state.users));
       }
     },
+    updateUser: (state, action) => {
+      const { id, updatedData } = action.payload;
+      const userIndex = state.users.findIndex(user => user.id === id);
+      if (userIndex !== -1) {
+        state.users[userIndex] = { 
+          ...state.users[userIndex], 
+          ...updatedData 
+        };
+        localStorage.setItem("users", JSON.stringify(state.users));
+      }
+    },
     updateUserRole: (state, action) => {
       const { userId, newRole } = action.payload;
       const user = state.users.find((u) => u.id === userId);
@@ -128,8 +138,13 @@ const usersSlice = createSlice({
         localStorage.setItem("users", JSON.stringify(state.users));
       }
     },
+    deleteUser: (state, action) => {
+      const userId = action.payload;
+      state.users = state.users.filter(user => user.id !== userId);
+      localStorage.setItem("users", JSON.stringify(state.users));
+    },
   },
 });
 
-export const { addUser, updateUserCategory, updateUserRole } = usersSlice.actions;
+export const { addUser, updateUserCategory, updateUserRole, updateUser, deleteUser } = usersSlice.actions;
 export default usersSlice.reducer;
